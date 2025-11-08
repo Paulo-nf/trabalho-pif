@@ -3,79 +3,80 @@
  * Created on Aug, 23th 2023
  * Author: Tiago Barros
  * Based on "From C to C++ course - 2002"
-*/
+ */
 
 #include <string.h>
 
-#include "screen.h"
 #include "keyboard.h"
+#include "screen.h"
 #include "timer.h"
 
-int x = 34, y = 12;
+int pacmanX = 34, pacmanY = 12;
 int incX = 1, incY = 1;
+#define PACMAN 'P'
 
-void printHello(int nextX, int nextY)
-{
+void printChar(char c, int nextX, int nextY) {
     screenSetColor(CYAN, DARKGRAY);
-    screenGotoxy(x, y);
-    printf("           ");
-    x = nextX;
-    y = nextY;
-    screenGotoxy(x, y);
-    printf("Hello World");
+    screenGotoxy(pacmanX, pacmanY);
+    printf(" ");
+    screenGotoxy(pacmanX, pacmanY);
+    printf("%c", c);
 }
 
-void printKey(int ch)
-{
-    screenSetColor(YELLOW, DARKGRAY);
-    screenGotoxy(35, 22);
-    printf("Key code :");
+enum direction {
+    DIR_W = 119,
+    DIR_A = 97,
+    DIR_S = 115,
+    DIR_D = 100
+};
 
-    screenGotoxy(34, 23);
-    printf("            ");
-    
-    if (ch == 27) screenGotoxy(36, 23);
-    else screenGotoxy(39, 23);
-
-    printf("%d ", ch);
-    while (keyhit())
-    {
-        printf("%d ", readch());
+void moveChar(int *newX, int *newY, int d, char c) {
+    screenSetColor(CYAN, DARKGRAY);
+    screenGotoxy(*newX, *newY);
+    printf(" ");
+    switch (d) {
+        case DIR_W:
+            *newY = (*newY - incY < MINY + 1) ? MINY + 1 : *newY - incY;
+            break;
+        case DIR_A:
+            *newX = (*newX - incX < MINX + 1) ? MINX + 1 : *newX - incX;
+            break;
+        case DIR_S:
+            *newY = (*newY + incY > MAXY - 1) ? MAXY - 1 : *newY + incY;
+            break;
+        case DIR_D:
+            *newX = (*newX + incX > MAXX - 2) ? MAXX - 2 : *newX + incX;
+            break;
     }
+    screenGotoxy(*newX , *newY);
+    printf("%c", c);
 }
 
-int main() 
-{
+void movePacman(int *newX, int *newY, int d){
+    moveChar(newX, newY, d, PACMAN);
+}
+
+int main() {
     static int ch = 0;
     static long timer = 0;
 
-    screenInit(1);
     keyboardInit();
+    screenInit(1);
     timerInit(50);
 
-    printHello(x, y);
+    printChar(PACMAN, pacmanX, pacmanY);
     screenUpdate();
 
-    while (ch != 10 && timer <= 100) //enter or 5s
+    while (ch != 10) // enter
     {
         // Handle user input
-        if (keyhit()) 
-        {
+        if (keyhit()) {
             ch = readch();
-            printKey(ch);
-            screenUpdate();
         }
 
         // Update game state (move elements, verify collision, etc)
-        if (timerTimeOver() == 1)
-        {
-            int newX = x + incX;
-            if (newX >= (MAXX -strlen("Hello World") -1) || newX <= MINX+1) incX = -incX;
-            int newY = y + incY;
-            if (newY >= MAXY-1 || newY <= MINY+1) incY = -incY;
-
-            printHello(newX, newY);
-
+        if (timerTimeOver() == 1) {
+            movePacman(&pacmanX, &pacmanY, ch);
             screenUpdate();
             timer++;
         }
