@@ -5,6 +5,8 @@
 
 extern int walls[MAXX][MAXY];
 
+void makeDefaultMap(void);
+
 void printWalls(void);
 
 #endif

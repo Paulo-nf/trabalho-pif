@@ -81,7 +81,7 @@ int main() {
     timerInit(50);
 
     printChar(PACMAN, pacmanX, pacmanY);
-    walls[30][5] = 1;
+    makeDefaultMap();
     printWalls();
 
     screenUpdate();
