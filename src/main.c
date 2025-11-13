@@ -10,27 +10,11 @@
 #include "keyboard.h"
 #include "screen.h"
 #include "timer.h"
+#include "walls.h"
 
 int pacmanX = 34, pacmanY = 12;
 int incX = 1, incY = 1;
 #define PACMAN 'P'
-
-#define SIZEX 80
-#define SIZEY 24
-
-int walls[SIZEX][SIZEY] = {0};
-
-void printWalls(int walls[SIZEX][SIZEY]){
-    for(int i = 0; i < SIZEX; i++){
-        for(int j = 0; j < SIZEY; j++){
-            if(walls[i][j] == 1){
-                screenSetColor(CYAN, BLUE);
-                screenGotoxy(i, j);
-                printf(" ");
-            }
-        }
-    }
-}
 
 void printChar(char c, int nextX, int nextY) {
     screenSetColor(CYAN, DARKGRAY);
@@ -98,7 +82,7 @@ int main() {
 
     printChar(PACMAN, pacmanX, pacmanY);
     walls[30][5] = 1;
-    printWalls(walls);
+    printWalls();
 
     screenUpdate();
 
