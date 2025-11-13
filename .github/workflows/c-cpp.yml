@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [ "main" ]
   workflow_dispatch:
-  
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,11 +17,13 @@ jobs:
       run: |
         make clean
         make
-  
+
   run:
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
     - name: run
-      run: make run
+      run: |
+        # Run the program and send Enter after 5 seconds
+        (sleep 5; echo) | make run
