@@ -12,23 +12,34 @@
 #include "pacman.h"
 #include "walls.h"
 #include "dot.h"
+#include "simbolo.h"
 
 
 
 int main() {
     static int ch = 0;
-    static long timer = 0;
 
+    // inits cli-lib
     keyboardInit();
     screenInit(1);
     timerInit(50);
 
-    
+    // inits map
     makeDefaultMap();
-    initDots();
-
     printWalls();
+
+
+    // inits entities
     printStartingPacman();
+
+    initDots();
+    drawDots();
+
+    initSimbolos();
+    printSimbolos();
+
+    // inits hud
+    initPreposicao();
 
     screenUpdate();
 
@@ -43,9 +54,8 @@ int main() {
         if (timerTimeOver() == 1) {
             movePacman(ch);
             checkDotCollision(player.x, player.y);
-            drawDots(); 
+            checkSimboloColisoes(player.x, player.y);
             screenUpdate();
-            timer++;
         }
     }
 
