@@ -3,7 +3,7 @@
 
 #define PACMAN 'P'
 
-int pacmanX = 34, pacmanY = 12;
+int pacmanX = MINX + (MAXX-MINX) / 2, pacmanY = (MINY + (MAXY-MINY) / 2) ;
 int incX = 1, incY = 1;
 
 enum direction {
