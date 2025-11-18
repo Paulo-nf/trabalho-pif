@@ -20,10 +20,10 @@ void _verticalWall(int y1, int y2, int x){
 void makeDefaultMap(){
     
     _horizontalWall(SCRSTARTX, SCRENDX + 1, SCRSTARTY); 
-    _horizontalWall(SCRSTARTX, SCRENDX + 1, SCRENDY-2);
+    _horizontalWall(SCRSTARTX, SCRENDX + 1, SCRENDY);
     
-    _verticalWall(SCRSTARTY + 1, SCRENDY-2, SCRSTARTX);
-    _verticalWall(SCRSTARTY + 1, SCRENDY-2, SCRENDX);
+    _verticalWall(SCRSTARTY + 1, SCRENDY, SCRSTARTX);
+    _verticalWall(SCRSTARTY + 1, SCRENDY, SCRENDX);
 }
 
 void printWalls(){

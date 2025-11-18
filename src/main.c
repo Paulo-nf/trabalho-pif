@@ -11,13 +11,9 @@
 
 #include "pacman.h"
 #include "walls.h"
+#include "dot.h"
 
-enum direction {
-    DIR_W = 119,
-    DIR_A = 97,
-    DIR_S = 115,
-    DIR_D = 100
-};
+
 
 int main() {
     static int ch = 0;
@@ -27,9 +23,12 @@ int main() {
     screenInit(1);
     timerInit(50);
 
-    printStartingPacman();
+    
     makeDefaultMap();
+    initDots();
+
     printWalls();
+    printStartingPacman();
 
     screenUpdate();
 
@@ -43,6 +42,8 @@ int main() {
         // Update game state (move elements, verify collision, etc)
         if (timerTimeOver() == 1) {
             movePacman(ch);
+            checkDotCollision(player.x, player.y);
+            drawDots(); 
             screenUpdate();
             timer++;
         }
