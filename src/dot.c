@@ -14,12 +14,7 @@
 Dot *all_dots = NULL;
 int total_dots = 0;
 
-/**
- * Adiciona uma nova pastilha ao array dinâmico 'all_dots'.
- * @param x Coordenada X da pastilha.
- * @param y Coordenada Y da pastilha.
- * @param type Tipo da pastilha (REGULAR_DOT, POWER_PELLET, etc.).
- */
+
 static void addDot(int x, int y, DotType type) {
     total_dots++;
     all_dots = (Dot *)realloc(all_dots, total_dots * sizeof(Dot));
