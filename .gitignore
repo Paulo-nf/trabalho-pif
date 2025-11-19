@@ -54,3 +54,6 @@ dkms.conf
 # Paulo :)
 .cache
 compile_commands.json
+
+# build
+build/cli-lib-example

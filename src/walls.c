@@ -7,13 +7,13 @@ int walls[MAXX][MAXY] = {0};
 //_horizontalWall e _verticalWall é só uso interno
 void _horizontalWall(int x1, int x2, int y){
     for(;x1 < x2; x1++){
-        walls[x1][y] = 1;
+        walls[x1][y] = WALLED;
     }
 }
 
 void _verticalWall(int y1, int y2, int x){
     for(;y1 < y2; y1++){
-        walls[x][y1] = 1;
+        walls[x][y1] = WALLED;
     }
 }
 
@@ -30,7 +30,7 @@ void printWalls(){
     makeDefaultMap();
     for(int i = 0; i < MAXX; i++){
         for(int j = 0; j < MAXY; j++){
-            if(walls[i][j] == 1){
+            if(walls[i][j] == WALLED){
                 screenSetColor(CYAN, BLUE);
                 screenGotoxy(i, j);
                 printf(" ");

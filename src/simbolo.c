@@ -5,8 +5,6 @@
 
 #include "simbolo.h"
 
-#define SIZE 8
-
 char proposicao[SIZE + 1];
 int proposicaoX = SCRSTARTX, proposicaoY = SCRSTARTY+33;
 
