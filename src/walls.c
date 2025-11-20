@@ -38,7 +38,7 @@ void printWalls(){
     makeDefaultMap();
     for(int i = 0; i < MAXX; i++){
         for(int j = 0; j < MAXY; j++){
-            if(walls[i][j] == 1){
+            if(walls[i][j] == WALLED){
                 screenSetColor(CYAN, BLUE);
                 screenGotoxy(i, j);
                 printf(" ");

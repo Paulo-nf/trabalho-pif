@@ -6,7 +6,6 @@
 #include "dot.h"
 #include "screen.h"
 #include "walls.h"
-#include "pacman.h"
 #include <stdlib.h>
 #include <stdio.h>
 

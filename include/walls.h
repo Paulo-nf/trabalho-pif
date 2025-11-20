@@ -5,6 +5,11 @@
 
 extern int walls[MAXX][MAXY];
 
+enum{
+    OPEN = 0,
+    WALLED = 1
+};
+
 void makeDefaultMap(void);
 
 void printWalls(void);

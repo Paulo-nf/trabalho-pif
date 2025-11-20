@@ -6,6 +6,7 @@
  */
 
 #include "keyboard.h"
+#include "logic_tautology.h"
 #include "screen.h"
 #include "timer.h"
 
@@ -13,6 +14,7 @@
 #include "walls.h"
 #include "dot.h"
 #include "simbolo.h"
+#include "fantasma.h"
 
 
 
@@ -41,6 +43,12 @@ int main() {
     // inits hud
     initPreposicao();
 
+
+    //test
+    Fantasmas[0] = createFantasma(SCRSTARTX + 10, SCRSTARTY + 10);
+    initFantasma(&Fantasmas[0]);
+    initRNG();
+
     screenUpdate();
 
     while (ch != 10) // enter
@@ -52,9 +60,44 @@ int main() {
 
         // Update game state (move elements, verify collision, etc)
         if (timerTimeOver() == 1) {
+            drawDots();
+            printSimbolos();
             movePacman(ch);
+
+            if(checkFantasmaColisoes(player.x, player.y) != 0){
+                if(is_tautology(proposicao)){
+                    Fantasmas[0].active = 0;
+                    Fantasmas[0].x = 0;
+                    Fantasmas[0].y = 0;
+                }
+                else{
+                keyboardDestroy();
+                screenDestroy();
+                timerDestroy();
+                return 0;
+                }
+            }
+
             checkDotCollision(player.x, player.y);
             checkSimboloColisoes(player.x, player.y);
+            moveFantasmas();
+
+            if(checkFantasmaColisoes(player.x, player.y) != 0){
+                if(is_tautology(proposicao)){
+                    Fantasmas[0].active = 0;
+                    Fantasmas[0].x = 0;
+                    Fantasmas[0].y = 0;
+                }
+                else{
+                    keyboardDestroy();
+                    screenDestroy();
+                    timerDestroy();
+                    return 0;
+                }
+            }
+
+
+
             screenUpdate();
         }
     }

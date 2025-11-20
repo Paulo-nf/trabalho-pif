@@ -1,8 +1,5 @@
-
 #ifndef __PACMAN_H__
 #define __PACMAN_H__
-
-#include "screen.h"
 
 enum direction {
     DIR_W = 119,
