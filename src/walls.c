@@ -5,16 +5,24 @@
 int walls[MAXX][MAXY] = {0};
 
 //_horizontalWall e _verticalWall é só uso interno
-void _horizontalWall(int x1, int x2, int y){
-    for(;x1 < x2; x1++){
-        walls[x1][y] = WALLED;
-    }
-}
+// walls.c
+
 
 void _verticalWall(int y1, int y2, int x){
-    for(;y1 < y2; y1++){
-        walls[x][y1] = WALLED;
+    if (y1 >= y2) {
+        return;
     }
+    walls[x][y1] = 1;
+    _verticalWall(y1 + 1, y2, x);
+}
+
+
+void _horizontalWall(int x1, int x2, int y){
+    if (x1 >= x2) {
+        return;
+    }
+    walls[x1][y] = 1;
+    _horizontalWall(x1 + 1, x2, y);
 }
 
 void makeDefaultMap(){
