@@ -1,8 +1,10 @@
 #include "screen.h"
+
 #include "walls.h"
-#include "pacman.h"
+#include "player.h"
 
 #define PACMAN_CHAR 'P'
+#define MAXLIFES 3
 
 // Definição da instância global (alocação de memória)
 Pacman player = {
@@ -10,10 +12,32 @@ Pacman player = {
     .y = MINY + (MAXY - MINY) / 2,
     .inc_x = 1,
     .inc_y = 1,
-    .lives = 3 
+    .lives = MAXLIFES
 };
 
-void printStartingPacman(){
+void initVidas(){
+    screenSetColor(WHITE, DARKGRAY);
+    screenGotoxy(SCRSTARTX, SCRSTARTY+34);
+    printf("VIDAS:");
+    screenSetColor(WHITE, DARKGRAY);
+    screenGotoxy(SCRSTARTX + 6,SCRSTARTY+34);
+    for(int i = 0; i < player.lives; i++){
+        printf("S2");
+    }
+}
+
+void reduzirVidas(){
+    screenSetColor(WHITE, DARKGRAY);
+    screenGotoxy(SCRSTARTX + 6,SCRSTARTY+34);
+    for(int i = 0; i < player.lives; i++){
+        printf("S2");
+    }
+    for(int i = 0; i < MAXLIFES - player.lives; i++){
+        printf("  ");
+    }
+}
+
+void printStartingPlayer(){
     screenSetColor(CYAN, DARKGRAY);
     
     screenGotoxy(player.x, player.y);
@@ -23,7 +47,12 @@ void printStartingPacman(){
     printf("%c", PACMAN_CHAR);
 }
 
-void movePacman(int d){
+void centerPlayer(){
+    player.x = MINX + (MAXX - MINX) / 2;
+    player.y = MINY + (MAXY - MINY) / 2;
+}
+
+void movePlayer(int d){
     screenSetColor(CYAN, DARKGRAY);
     screenGotoxy(player.x, player.y);
 

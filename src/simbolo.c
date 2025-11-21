@@ -8,26 +8,32 @@
 char proposicao[SIZE + 1];
 int proposicaoX = SCRSTARTX, proposicaoY = SCRSTARTY+33;
 
-typedef struct {
-    int x, y;
-    char c;
-} Simbolo;
-
 Simbolo simbolos[SIZE];
 
 void initSimbolos() {
-    simbolos[0].x = SCRSTARTX+42;
-    simbolos[0].y = SCRSTARTY+18;
-    simbolos[0].c = 'P';
-    simbolos[1].x = SCRSTARTX+43;
-    simbolos[1].y = SCRSTARTY+18;
-    simbolos[1].c = 'v';
-    simbolos[2].x = SCRSTARTX+44;
-    simbolos[2].y = SCRSTARTY+18;
-    simbolos[2].c = '~';
-    simbolos[3].x = SCRSTARTX+45;
-    simbolos[3].y = SCRSTARTY+18;
-    simbolos[3].c = 'P';
+    simbolos[0] = (Simbolo){
+        .x = SCRSTARTX + 42,
+        .y = SCRSTARTY + 18,
+        .c = 'P'
+    };
+
+    simbolos[1] = (Simbolo){
+        .x = SCRSTARTX + 43,
+        .y = SCRSTARTY + 18,
+        .c = 'v'
+    };
+
+    simbolos[2] = (Simbolo){
+        .x = SCRSTARTX + 44,
+        .y = SCRSTARTY + 18,
+        .c = '~'
+    };
+
+    simbolos[3] = (Simbolo){
+        .x = SCRSTARTX + 45,
+        .y = SCRSTARTY + 18,
+        .c = 'P'
+    };
 }
 
 void initPreposicao(){

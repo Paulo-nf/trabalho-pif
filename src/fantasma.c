@@ -2,9 +2,10 @@
 #include <stdlib.h>
 #include <time.h>
 
+#include "screen.h"
+
 #include "fantasma.h"
 #include "walls.h"
-#include "screen.h"
 
 Fantasma Fantasmas[SIZE] = {0};
 
@@ -104,13 +105,14 @@ int checkFantasmaColisao(Fantasma *f, int pacmanX, int pacmanY){
 }
 
 int checkFantasmaColisoes(int pacmanX, int pacmanY){
-    int tmp = 0;
     for(int i = 0; i < SIZE; i++){
         if(Fantasmas[i].active == 1){
-            tmp += checkFantasmaColisao(&Fantasmas[i], pacmanX, pacmanY);
+            if(checkFantasmaColisao(&Fantasmas[i], pacmanX, pacmanY) == 1){
+            return i;
+            }
         }
     }
-    return tmp;
+    return -1;
 }
 
 Fantasma createFantasma(int x, int y) {
