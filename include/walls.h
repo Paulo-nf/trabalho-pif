@@ -11,7 +11,6 @@ enum{
 };
 
 void makeDefaultMap(void);
-
 void printWalls(void);
 
 #endif

@@ -3,11 +3,14 @@
  * Implementação para gerenciamento das pastilhas (Dots e Power Pellets).
  */
 
-#include "dot.h"
-#include "screen.h"
-#include "walls.h"
 #include <stdlib.h>
 #include <stdio.h>
+
+#include "screen.h"
+
+#include "dot.h"
+#include "walls.h"
+
 
 // Definição das variáveis globais declaradas como 'extern' em dot.h
 Dot *all_dots = NULL;

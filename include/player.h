@@ -1,5 +1,5 @@
-#ifndef __PACMAN_H__
-#define __PACMAN_H__
+#ifndef __PLAYER_H__
+#define __PLAYER_H__
 
 enum direction {
     DIR_W = 119,
@@ -21,8 +21,10 @@ typedef struct {
 // Declaração da instância global do Pac-Man (extern)
 extern Pacman player;
 
-void printStartingPacman(void);
-// A função movePacman agora receberá a direção e a struct por referência
-void movePacman(int d); 
+void printStartingPlayer(void);
+void centerPlayer(void);
+void movePlayer(int d);
+void initVidas(void);
+void reduzirVidas(void);
 
 #endif

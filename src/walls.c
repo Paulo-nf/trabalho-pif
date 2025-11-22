@@ -5,8 +5,6 @@
 int walls[MAXX][MAXY] = {0};
 
 //_horizontalWall e _verticalWall é só uso interno
-// walls.c
-
 
 void _verticalWall(int y1, int y2, int x){
     if (y1 >= y2) {
@@ -26,10 +24,10 @@ void _horizontalWall(int x1, int x2, int y){
 }
 
 void makeDefaultMap(){
-    
-    _horizontalWall(SCRSTARTX, SCRENDX + 1, SCRSTARTY); 
+
+    _horizontalWall(SCRSTARTX, SCRENDX + 1, SCRSTARTY);
     _horizontalWall(SCRSTARTX, SCRENDX + 1, SCRENDY);
-    
+
     _verticalWall(SCRSTARTY + 1, SCRENDY, SCRSTARTX);
     _verticalWall(SCRSTARTY + 1, SCRENDY, SCRENDX);
 }

@@ -6,7 +6,11 @@
 typedef enum {RANDOM} AI;
 
 enum{
-    NONE, W, A, S, D
+    NONE,
+    W,
+    A,
+    S,
+    D
 };
 
 typedef struct {
@@ -19,14 +23,10 @@ typedef struct {
 
 extern Fantasma Fantasmas[SIZE];
 
-void initFantasma(Fantasma *f);
-
-void moveFantasmas(void);
-
-Fantasma createFantasma(int x, int y);
-
-int checkFantasmaColisoes(int pacmanX, int pacmanY);
-
 void initRNG(void);
+void initFantasma(Fantasma *f);
+void moveFantasmas(void);
+int checkFantasmaColisoes(int pacmanX, int pacmanY);
+Fantasma createFantasma(int x, int y);
 
 #endif
