@@ -2,6 +2,7 @@
 #define __FANTASMA_H__
 
 #define SIZE 8
+#define FANTASMA_SYMBOL "👻"
 
 typedef enum {RANDOM} AI;
 

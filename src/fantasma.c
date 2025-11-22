@@ -10,9 +10,9 @@
 Fantasma Fantasmas[SIZE] = {0};
 
 void initFantasma(Fantasma *f){
-    screenSetColor(CYAN, DARKGRAY);
+    screenSetColor(GREEN, DARKGRAY);
     screenGotoxy(f->x, f->y);
-    printf("T");
+    printf(FANTASMA_SYMBOL);
 }
 
 void initRNG(){
@@ -20,6 +20,7 @@ void initRNG(){
 }
 
 void moveFantasma(Fantasma *f){
+    screenSetColor(GREEN, DARKGRAY);
     screenGotoxy(f->x, f->y);
     printf(" ");
 
@@ -84,9 +85,8 @@ void moveFantasma(Fantasma *f){
             }
             break;
     }
-    screenSetColor(CYAN, DARKGRAY);
     screenGotoxy(f->x, f->y);
-    printf("T");
+    printf(FANTASMA_SYMBOL);
 }
 
 void moveFantasmas(){

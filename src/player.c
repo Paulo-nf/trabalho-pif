@@ -3,19 +3,17 @@
 #include "walls.h"
 #include "player.h"
 
-#define PACMAN_CHAR 'P'
-#define MAXLIFES 3
-
-// Definição da instância global (alocação de memória)
 Pacman player = {
     .x = MINX + (MAXX - MINX) / 2, 
     .y = MINY + (MAXY - MINY) / 2,
     .inc_x = 1,
     .inc_y = 1,
-    .lives = MAXLIFES
+    .lives = MAXLIFES,
+    .score = 0,
+    .direction = STILL
 };
 
-void initVidas(){
+void initVidasHUD(){
     screenSetColor(WHITE, DARKGRAY);
     screenGotoxy(SCRSTARTX, SCRSTARTY+34);
     printf("VIDAS:");
@@ -24,6 +22,10 @@ void initVidas(){
     for(int i = 0; i < player.lives; i++){
         printf("S2");
     }
+}
+
+void resetVidas(){
+    player.lives = MAXLIFES;
 }
 
 void reduzirVidas(){
@@ -37,26 +39,30 @@ void reduzirVidas(){
     }
 }
 
-void printStartingPlayer(){
-    screenSetColor(CYAN, DARKGRAY);
+void printPlayer(){
+    screenSetColor(GREEN, DARKGRAY);
     
     screenGotoxy(player.x, player.y);
-    printf(" "); 
     
     screenGotoxy(player.x, player.y);
-    printf("%c", PACMAN_CHAR);
+    printf("%s", PACMAN_SYMBOL);
 }
 
 void centerPlayer(){
     player.x = MINX + (MAXX - MINX) / 2;
     player.y = MINY + (MAXY - MINY) / 2;
+    player.direction = STILL;
 }
 
-void movePlayer(int d){
-    screenSetColor(CYAN, DARKGRAY);
+void changePlayerDirection(int d){
+    player.direction = d;
+}
+
+void movePlayer(){
+    screenSetColor(GREEN, DARKGRAY);
     screenGotoxy(player.x, player.y);
 
-    switch (d) {
+    switch (player.direction) {
         case DIR_W: 
             if(walls[player.x][player.y - 1] == 1){
                 return; 
@@ -91,5 +97,5 @@ void movePlayer(int d){
     }
 
     screenGotoxy(player.x , player.y);
-    printf("%c", PACMAN_CHAR);
+    printf("%s", PACMAN_SYMBOL);
 }

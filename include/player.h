@@ -1,7 +1,11 @@
 #ifndef __PLAYER_H__
 #define __PLAYER_H__
 
+#define PACMAN_SYMBOL "😛"
+#define MAXLIFES 3
+
 enum direction {
+    STILL = 0,
     DIR_W = 119,
     DIR_A = 97,
     DIR_S = 115,
@@ -14,6 +18,7 @@ typedef struct {
     int inc_x;
     int inc_y;
     int lives;
+    int direction;
     int score;
 } Pacman;
 
@@ -21,10 +26,12 @@ typedef struct {
 // Declaração da instância global do Pac-Man (extern)
 extern Pacman player;
 
-void printStartingPlayer(void);
+void printPlayer(void);
 void centerPlayer(void);
-void movePlayer(int d);
-void initVidas(void);
+void changePlayerDirection(int d);
+void movePlayer(void);
+void initVidasHUD(void);
+void resetVidas(void);
 void reduzirVidas(void);
 
 #endif

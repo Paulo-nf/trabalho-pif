@@ -1,3 +1,5 @@
+#include <string.h>
+
 #include "keyboard.h"
 #include "screen.h"
 #include "timer.h"
@@ -8,16 +10,20 @@
 #include "dot.h"
 #include "simbolo.h"
 #include "fantasma.h"
+#include "menu.h"
+
+#define IS_WASD(c) (strchr("wasdWASD", (c)) != NULL)
 
 static int ch = 0;
-static int fantasmaNumero = -1;
+static int fantasmaQueColide = -1;
 static int gameOver = 0;
 
 void restart(){
     centerPlayer();
-    printStartingPlayer();
+    printPlayer();
     ch = 0;
 
+    resetProposicao();
     initSimbolos();
     printSimbolos();
 }
@@ -40,80 +46,112 @@ void morte(){
     }
 }
 
+void comer(){
+    if(is_tautology(proposicao)){
+        initDots();
+        checkDotCollision(player.x, player.y);
+        printPlayer();
+        printSimbolos();
+        Fantasmas[fantasmaQueColide].active = 0;
+        Fantasmas[fantasmaQueColide].x = 0;
+        Fantasmas[fantasmaQueColide].y = 0;
+    }
+}
+
 void faseComer(){
-    fantasmaNumero = checkFantasmaColisoes(player.x, player.y);
-    if(fantasmaNumero != -1){
+    fantasmaQueColide = checkFantasmaColisoes(player.x, player.y);
+    if(fantasmaQueColide != -1){
         if(is_tautology(proposicao)){
-            initDots();
-            Fantasmas[fantasmaNumero].active = 0;
-            Fantasmas[fantasmaNumero].x = 0;
-            Fantasmas[fantasmaNumero].y = 0;
+            comer();
         }
         else{
             morte();
         }
+        resetProposicao();
     }
 }
 
 int main() {
+
     // inits cli-lib
     keyboardInit();
     screenInit(1);
     timerInit(50);
 
-    // inits map
-    makeDefaultMap();
-    printWalls();
+    while(1){
+        menu();
 
-    // inits entities
-    printStartingPlayer();
+        ch = getchar();
 
-    initDots();
-    drawDots();
+        if(ch == 10){ // enter
 
-    initSimbolos();
-    printSimbolos();
+            // inits map
+            makeDefaultMap();
+            printWalls();
 
-    // inits hud
-    initPreposicao();
-    initVidas();
+            // inits entities
+            centerPlayer();
+            resetVidas();
+            printPlayer();
 
-
-    //test
-    Fantasmas[0] = createFantasma(SCRSTARTX + 10, SCRSTARTY + 10);
-    initFantasma(&Fantasmas[0]);
-    initRNG();
-
-    screenUpdate();
-
-    while (ch != 10 && gameOver != 1) // enter
-    {
-        // Handle user input
-        if (keyhit()) {
-            ch = readch();
-        }
-
-        // Update game state (move elements, verify collision, etc)
-        if (timerTimeOver() == 1) {
+            initDots();
             drawDots();
+
+            initSimbolos();
+            resetProposicao();
             printSimbolos();
-            movePlayer(ch);
 
-            faseComer();
+            // inits hud
+            initProposicao();
+            initVidasHUD();
 
-            checkDotCollision(player.x, player.y);
-            checkSimboloColisoes(player.x, player.y);
-            moveFantasmas();
 
-            faseComer();
+            //test
+            Fantasmas[0] = createFantasma(SCRSTARTX + 10, SCRSTARTY + 10);
+            initFantasma(&Fantasmas[0]);
+            initRNG();
 
             screenUpdate();
+
+            while ((ch != 81 && ch != 113) && gameOver != 1) // q e Q
+            {
+                // Handle user input
+                if (keyhit()) {
+                    ch = readch();
+                }
+
+                // Update game state (move elements, verify collision, etc)
+                if (timerTimeOver() == 1) {
+                    drawDots();
+                    printSimbolos();
+
+                    if (IS_WASD(ch)) {
+                        changePlayerDirection(ch);
+                    }
+                    movePlayer();
+
+                    faseComer();
+
+                    checkDotCollision(player.x, player.y);
+                    checkSimboloColisoes(player.x, player.y);
+                    moveFantasmas();
+
+                    faseComer();
+
+                    screenUpdate();
+                }
+            }
+            ch = 0;
+        }
+        if(ch == 81 || ch == 113){ // q e Q
+            keyboardDestroy();
+            screenDestroy();
+            timerDestroy();
+
+            return 0;
         }
     }
 
-    keyboardDestroy();
-    screenDestroy();
-    timerDestroy();
 
-    return 0;
 }
+

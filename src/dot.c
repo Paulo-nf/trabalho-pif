@@ -60,19 +60,9 @@ void initDots() {
 void drawDots() {
     for (int i = 0; i < total_dots; i++) {
         if (all_dots[i].is_eaten == 0) {
-            
-            // Define a cor baseada no tipo de pastilha
-            if (all_dots[i].type == POWER_PELLET) {
-                // Desenha o Power Pellet (maior e possivelmente com cor diferente)
-                screenSetColor(WHITE, DARKGRAY); 
-                screenGotoxy(all_dots[i].x, all_dots[i].y);
-                printf("O"); 
-            } else {
-                // Desenha o Ponto Regular
-                screenSetColor(YELLOW, DARKGRAY);
-                screenGotoxy(all_dots[i].x, all_dots[i].y);
-                printf("."); 
-            }
+            screenSetColor(YELLOW, DARKGRAY);
+            screenGotoxy(all_dots[i].x, all_dots[i].y);
+            printf(".");
         }
     }
 }
