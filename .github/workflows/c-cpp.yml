@@ -25,5 +25,4 @@ jobs:
     - uses: actions/checkout@v4
     - name: run
       run: |
-        # Run the program and send Enter after 5 seconds
-        (sleep 5; echo) | make run
+        (echo; sleep 5; printf 'q'; printf 'q') | make run
