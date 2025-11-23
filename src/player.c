@@ -9,7 +9,6 @@ Pacman player = {
     .inc_x = 1,
     .inc_y = 1,
     .lives = MAXLIFES,
-    .score = 0,
     .direction = STILL
 };
 

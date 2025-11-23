@@ -10,6 +10,7 @@
 
 #include "dot.h"
 #include "walls.h"
+#include "score.h"
 
 
 // Definição das variáveis globais declaradas como 'extern' em dot.h
@@ -79,6 +80,7 @@ void checkDotCollision(int pacmanX, int pacmanY) {
             all_dots[i].x == pacmanX && 
             all_dots[i].y == pacmanY) {
 
+            scorePoint();
             all_dots[i].is_eaten = 1; 
             
             // Aqui é onde a pontuação e a lógica especial (Tautologia) entrariam

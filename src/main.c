@@ -11,6 +11,7 @@
 #include "simbolo.h"
 #include "fantasma.h"
 #include "menu.h"
+#include "score.h"
 
 #define IS_WASD(c) (strchr("wasdWASD", (c)) != NULL)
 
@@ -29,9 +30,7 @@ void restart(){
 }
 
 void gameover(){
-    keyboardDestroy();
     screenDestroy();
-    timerDestroy();
     gameOver = 1;
 }
 
@@ -47,15 +46,14 @@ void morte(){
 }
 
 void comer(){
-    if(is_tautology(proposicao)){
-        initDots();
-        checkDotCollision(player.x, player.y);
-        printPlayer();
-        printSimbolos();
-        Fantasmas[fantasmaQueColide].active = 0;
-        Fantasmas[fantasmaQueColide].x = 0;
-        Fantasmas[fantasmaQueColide].y = 0;
-    }
+    scoreTautology();
+    initDots();
+    checkDotCollision(player.x, player.y);
+    printPlayer();
+    printSimbolos();
+    Fantasmas[fantasmaQueColide].active = 0;
+    Fantasmas[fantasmaQueColide].x = 0;
+    Fantasmas[fantasmaQueColide].y = 0;
 }
 
 void faseComer(){
@@ -105,6 +103,8 @@ int main() {
             initProposicao();
             initVidasHUD();
 
+            resetScore();
+
 
             //test
             Fantasmas[0] = createFantasma(SCRSTARTX + 10, SCRSTARTY + 10);
@@ -112,6 +112,8 @@ int main() {
             initRNG();
 
             screenUpdate();
+
+            gameOver = 0;
 
             while ((ch != 81 && ch != 113) && gameOver != 1) // q e Q
             {
@@ -137,6 +139,8 @@ int main() {
                     moveFantasmas();
 
                     faseComer();
+                    printScore();
+                    printWalls();
 
                     screenUpdate();
                 }

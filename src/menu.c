@@ -5,6 +5,7 @@
 #include "menu.h"
 #include "player.h"
 #include "fantasma.h"
+#include "score.h"
 
 static int line = 0;
 
@@ -50,6 +51,15 @@ void menu(){
     spaceOut(1);
     newLine();
     printf("Aperter ENTER para começar");
+
+    spaceOut(1);
+    initHighScores();
+    newLine();
+    printf("HIGH SCORES:");
+    for(int i = 0; i < SIZE; i++){
+        newLine();
+        printf("%s: %d", high_scores[i].name, high_scores[i].score);
+    }
 
     screenUpdate();
     line = 0;

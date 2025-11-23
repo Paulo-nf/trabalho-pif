@@ -2,7 +2,7 @@
 #define __PLAYER_H__
 
 #define PACMAN_SYMBOL "😛"
-#define MAXLIFES 3
+#define MAXLIFES 1
 
 enum direction {
     STILL = 0,
