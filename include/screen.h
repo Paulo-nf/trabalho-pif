@@ -44,7 +44,7 @@
 
 // screen constants
 #define SCRSTARTX      32      // Initial and final screen positions for the game
-#define SCRENDX        97     // It means the area that can be drawn 
+#define SCRENDX        97     // It means the area that can be drawn
 #define SCRSTARTY      2
 #define SCRENDY        33
 

@@ -20,7 +20,6 @@ void printScore(void);
 void updateHighScores(int newScore, const char* playerName);
 void freeHighScores(void);
 void saveHighScores(void);
-void freeHighScores(void);
 void getPlayerName(char *nameBuffer, int bufferSize);
 
 #endif

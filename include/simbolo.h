@@ -16,5 +16,6 @@ void printSimbolos(void);
 void checkSimboloColisoes(int x, int y);
 void initProposicao(void);
 void resetProposicao(void);
+void resetSimbolos(void);
 
 #endif

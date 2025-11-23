@@ -7,12 +7,40 @@
 #include "fantasma.h"
 #include "walls.h"
 
-Fantasma Fantasmas[SIZE] = {0};
+Fantasma Fantasmas[SIZE_FANTASMAS] = {0};
 
 void initFantasma(Fantasma *f){
     screenSetColor(GREEN, DARKGRAY);
     screenGotoxy(f->x, f->y);
     printf(FANTASMA_SYMBOL);
+}
+
+void initFantasmas(){
+    Fantasmas[0] = createFantasma(SCRSTARTX + 1, SCRENDY - 1);
+    initFantasma(&Fantasmas[0]);
+    Fantasmas[1] = createFantasma(SCRENDX - 2, SCRENDY - 1);
+    initFantasma(&Fantasmas[1]);
+    Fantasmas[2] = createFantasma((SCRSTARTX + SCRENDX)/2, SCRSTARTY+1);
+    initFantasma(&Fantasmas[2]);
+}
+
+void fantasmaRespawn(int i){
+    Fantasmas[i].timeToRespawn = 0;
+    Fantasmas[i].active = 1;
+    Fantasmas[i].x =  Fantasmas[i].starting_x;
+    Fantasmas[i].y =  Fantasmas[i].starting_y;
+    Fantasmas[i].next_cell = NONE;
+}
+
+void tickRespawn(){
+    for(int i = 0; i < SIZE_FANTASMAS; i++){
+        if(Fantasmas[i].active == 0){
+            Fantasmas[i].timeToRespawn++;
+            if(Fantasmas[i].timeToRespawn == 200){
+                fantasmaRespawn(i);
+            }
+        }
+    }
 }
 
 void initRNG(){
@@ -90,7 +118,7 @@ void moveFantasma(Fantasma *f){
 }
 
 void moveFantasmas(){
-    for(int i = 0; i < SIZE; i++){
+    for(int i = 0; i < SIZE_FANTASMAS; i++){
         if(Fantasmas[i].active == 1){
             moveFantasma(&Fantasmas[i]);
         }
@@ -105,7 +133,7 @@ int checkFantasmaColisao(Fantasma *f, int pacmanX, int pacmanY){
 }
 
 int checkFantasmaColisoes(int pacmanX, int pacmanY){
-    for(int i = 0; i < SIZE; i++){
+    for(int i = 0; i < SIZE_FANTASMAS; i++){
         if(Fantasmas[i].active == 1){
             if(checkFantasmaColisao(&Fantasmas[i], pacmanX, pacmanY) == 1){
             return i;
@@ -119,10 +147,11 @@ Fantasma createFantasma(int x, int y) {
     Fantasma f = {
         .x = x,
         .y = y,
+        .starting_x = x,
+        .starting_y = y,
         .active = 1,
         .ai = RANDOM,
         .next_cell = NONE
     };
-    Fantasmas[0] = f;
     return f;
 }

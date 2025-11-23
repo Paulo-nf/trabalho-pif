@@ -15,6 +15,15 @@
 
 #define IS_WASD(c) (strchr("wasdWASD", (c)) != NULL)
 
+/*TODO:
+ * mapa/walls
+ * simbolos
+ * AI perseguir
+ * trocar por power up temporario?
+ * limpar dot.c/h
+ * colocar scores certinho
+*/
+
 static int ch = 0;
 static int fantasmaQueColide = -1;
 static int gameOver = 0;
@@ -30,12 +39,15 @@ void restart(){
 }
 
 void gameover(){
-    screenDestroy();
     gameOver = 1;
     if(score > high_scores[SIZE - 1].score){
+        keyboardDestroy();
+        screenSetColor(YELLOW, DARKGRAY);
+        screenInit(1);
         char playerName[50];
         getPlayerName(playerName, sizeof(playerName));
         while (getchar() != '\n');
+        keyboardInit();
         updateHighScores(score, playerName);
     }
 }
@@ -62,7 +74,7 @@ void comer(){
     Fantasmas[fantasmaQueColide].y = 0;
 }
 
-void faseComer(){
+void comerOuMorrer(){
     fantasmaQueColide = checkFantasmaColisoes(player.x, player.y);
     if(fantasmaQueColide != -1){
         if(is_tautology(proposicao)){
@@ -71,6 +83,7 @@ void faseComer(){
         else{
             morte();
         }
+        resetSimbolos();
         resetProposicao();
     }
 }
@@ -83,6 +96,7 @@ int main() {
     timerInit(50);
 
     initHighScores();
+    initRNG();
 
     while(1){
         menu();
@@ -103,6 +117,8 @@ int main() {
             initDots();
             drawDots();
 
+            initFantasmas();
+
             initSimbolos();
             resetProposicao();
             printSimbolos();
@@ -112,12 +128,6 @@ int main() {
             initVidasHUD();
 
             resetScore();
-
-
-            //test
-            Fantasmas[0] = createFantasma(SCRSTARTX + 10, SCRSTARTY + 10);
-            initFantasma(&Fantasmas[0]);
-            initRNG();
 
             screenUpdate();
 
@@ -132,6 +142,8 @@ int main() {
 
                 // Update game state (move elements, verify collision, etc)
                 if (timerTimeOver() == 1) {
+                    tickRespawn();
+
                     drawDots();
                     printSimbolos();
 
@@ -140,13 +152,13 @@ int main() {
                     }
                     movePlayer();
 
-                    faseComer();
+                    comerOuMorrer();
 
                     checkDotCollision(player.x, player.y);
                     checkSimboloColisoes(player.x, player.y);
                     moveFantasmas();
 
-                    faseComer();
+                    comerOuMorrer();
                     printScore();
                     printWalls();
 

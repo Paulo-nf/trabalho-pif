@@ -40,6 +40,12 @@ void initSimbolos() {
     };
 }
 
+void resetSimbolos(){
+    for(int i = 0; i < SIZE; i++){
+        simbolos[i].active = 1;
+    }
+}
+
 void initProposicao(){
     screenSetColor(WHITE, DARKGRAY);
     screenGotoxy(proposicaoX,proposicaoY);
@@ -78,7 +84,7 @@ void checkSimboloColisoes(int x, int y){
         Simbolo *s = &simbolos[i];
         if (x == s->x && y == s->y){
             strcat(proposicao, &s->c);
-            *s = (Simbolo){0};
+            simbolos[i].active = 0;
             screenSetColor(WHITE, is_tautology(proposicao) ? GREEN : RED);
             screenGotoxy(proposicaoX + 11,proposicaoY);
             printf("        ");

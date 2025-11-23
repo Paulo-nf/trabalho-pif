@@ -11,9 +11,8 @@ int high_scores_size = 0;
 void getPlayerName(char *nameBuffer, int bufferSize) {
     screenSetColor(WHITE, DARKGRAY);
     screenGotoxy(SCRSTARTX, SCRSTARTY+20);
-    printf("Enter your name: ");
+    printf("Novo High Score! Entre seu nome(sem espaços): ");
 
-    // Simple input - you might want to implement proper input handling
     if (scanf("%49s", nameBuffer) != 1) {
         strcpy(nameBuffer, "Player");
     }
@@ -64,14 +63,7 @@ void updateHighScores(int newScore, const char* playerName) {
 }
 
 void saveHighScores(){
-    if (high_scores == NULL) {
-        return;
-    }
-
     FILE *fptr = fopen("scores.txt", "w");
-    if (fptr == NULL) {
-        return;
-    }
 
     for (int i = 0; i < high_scores_size; i++) {
         fprintf(fptr, "%s %d\n", high_scores[i].name, high_scores[i].score);

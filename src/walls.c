@@ -30,6 +30,8 @@ void makeDefaultMap(){
 
     _verticalWall(SCRSTARTY + 1, SCRENDY, SCRSTARTX);
     _verticalWall(SCRSTARTY + 1, SCRENDY, SCRENDX);
+
+    _horizontalWall(SCRSTARTX+16, SCRENDX - 30, SCRSTARTY+5);
 }
 
 void printWalls(){
