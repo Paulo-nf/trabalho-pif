@@ -53,7 +53,6 @@ void menu(){
     printf("Aperter ENTER para começar");
 
     spaceOut(1);
-    initHighScores();
     newLine();
     printf("HIGH SCORES:");
     for(int i = 0; i < SIZE; i++){

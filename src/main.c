@@ -32,6 +32,12 @@ void restart(){
 void gameover(){
     screenDestroy();
     gameOver = 1;
+    if(score > high_scores[SIZE - 1].score){
+        char playerName[50];
+        getPlayerName(playerName, sizeof(playerName));
+        while (getchar() != '\n');
+        updateHighScores(score, playerName);
+    }
 }
 
 void morte(){
@@ -75,6 +81,8 @@ int main() {
     keyboardInit();
     screenInit(1);
     timerInit(50);
+
+    initHighScores();
 
     while(1){
         menu();
@@ -147,7 +155,10 @@ int main() {
             }
             ch = 0;
         }
-        if(ch == 81 || ch == 113){ // q e Q
+        if(ch == 81 || ch == 113){ // q e
+            saveHighScores();
+            freeHighScores();
+
             keyboardDestroy();
             screenDestroy();
             timerDestroy();
