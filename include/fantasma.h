@@ -4,7 +4,9 @@
 #define SIZE_FANTASMAS 3
 #define FANTASMA_SYMBOL "👻"
 
-typedef enum {RANDOM} AI;
+typedef enum {RANDOM, PURSUE} AI;
+
+typedef enum {SLOW, FAST} Pace;
 
 enum{
     NONE,
@@ -22,17 +24,18 @@ typedef struct {
     int active;
     int next_cell;
     int timeToRespawn;
+    Pace pace;
     AI ai;
 } Fantasma;
 
-extern Fantasma Fantasmas[SIZE_FANTASMAS];
+extern Fantasma fantasmas[SIZE_FANTASMAS];
 
 void initRNG(void);
 void initFantasmas(void);
 void initFantasma(Fantasma *f);
 void moveFantasmas(void);
 int checkFantasmaColisoes(int pacmanX, int pacmanY);
-Fantasma createFantasma(int x, int y);
-void tickRespawn(void);
+Fantasma createFantasma(int x, int y, AI ai, Pace pace);
+void tickFantasmaRespawn(void);
 
 #endif

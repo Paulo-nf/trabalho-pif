@@ -16,12 +16,12 @@
 #define IS_WASD(c) (strchr("wasdWASD", (c)) != NULL)
 
 /*TODO:
- * mapa/walls
- * simbolos
- * AI perseguir
+ * AI perseguir velocidade
  * trocar por power up temporario?
  * limpar dot.c/h
- * colocar scores certinho
+ * ajeitar high scores depois dos testes
+ * estoria
+ * limpar codigo se der tempo :p
 */
 
 static int ch = 0;
@@ -69,9 +69,9 @@ void comer(){
     checkDotCollision(player.x, player.y);
     printPlayer();
     printSimbolos();
-    Fantasmas[fantasmaQueColide].active = 0;
-    Fantasmas[fantasmaQueColide].x = 0;
-    Fantasmas[fantasmaQueColide].y = 0;
+    fantasmas[fantasmaQueColide].active = 0;
+    fantasmas[fantasmaQueColide].x = 0;
+    fantasmas[fantasmaQueColide].y = 0;
 }
 
 void comerOuMorrer(){
@@ -83,7 +83,6 @@ void comerOuMorrer(){
         else{
             morte();
         }
-        resetSimbolos();
         resetProposicao();
     }
 }
@@ -142,7 +141,8 @@ int main() {
 
                 // Update game state (move elements, verify collision, etc)
                 if (timerTimeOver() == 1) {
-                    tickRespawn();
+                    tickFantasmaRespawn();
+                    tickSimboloRespawn();
 
                     drawDots();
                     printSimbolos();
