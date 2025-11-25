@@ -64,6 +64,12 @@ void makeDefaultMap(){
     _horizontalWall(5, 10, 23);
     _horizontalWall(55, 60, 8);
     _horizontalWall(55, 60, 23);
+
+    _horizontalWall(1, 2, 16);
+    _horizontalWall(63, 64, 16);
+    _verticalWall(1, 3, 32);
+    _verticalWall(69, 71, 31);
+
 }
 
 void printWalls(){

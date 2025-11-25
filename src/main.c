@@ -83,7 +83,7 @@ int main() {
     // inits cli-lib
     keyboardInit();
     screenInit(1);
-    timerInit(50);
+    timerInit(60);
 
     initHighScores();
     initRNG();
