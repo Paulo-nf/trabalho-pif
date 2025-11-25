@@ -24,6 +24,7 @@ Para compilar e executar o jogo, basta executar o seguinte comando:
 ```bash
 make run
 ```
+<img width="861" height="912" alt="Screenshot" src="https://github.com/user-attachments/assets/fa35e12d-6f6e-440d-9fb1-1d0b67a3e0f2" />
 
 ## 👥 Integrantes do Projeto
 
