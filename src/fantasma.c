@@ -19,12 +19,21 @@ void initFantasma(Fantasma *f){
 }
 
 void initFantasmas(){
-    fantasmas[0] = createFantasma(SCRSTARTX + 1, SCRENDY - 1, RANDOM, FAST);
+    fantasmas[0] = createFantasma((SCRSTARTX + SCRENDX)/2 - 2, SCRSTARTY + 1, PURSUE, SLOW);
     initFantasma(&fantasmas[0]);
-    fantasmas[1] = createFantasma(SCRENDX - 2, SCRENDY - 1, RANDOM, FAST);
+    fantasmas[1] = createFantasma((SCRSTARTX + SCRENDX)/2, SCRENDY -1, PURSUE, SLOW);
     initFantasma(&fantasmas[1]);
-    fantasmas[2] = createFantasma((SCRSTARTX + SCRENDX)/2, SCRSTARTY+1, PURSUE, SLOW);
+
+    /*fantasmas[2] = createFantasma(SCRSTARTX + 1, SCRSTARTY + 1, RANDOM, FAST);
     initFantasma(&fantasmas[2]);
+    fantasmas[3] = createFantasma(SCRSTARTX + 1, SCRENDY - 1, RANDOM, FAST);
+    initFantasma(&fantasmas[3]);
+    fantasmas[4] = createFantasma(SCRENDX - 2, SCRSTARTY + 1, RANDOM, FAST);
+    initFantasma(&fantasmas[4]);
+    fantasmas[5] = createFantasma(SCRENDX - 2, SCRENDY - 1, RANDOM, FAST);
+    initFantasma(&fantasmas[5]);
+    */
+
 }
 
 void fantasmaRespawn(int i){
@@ -50,6 +59,17 @@ void initRNG(){
     srand(time(NULL));
 }
 
+int isPositionOccupiedByGhost(int x, int y, Fantasma *currentGhost) {
+    for(int i = 0; i < SIZE_FANTASMAS; i++) {
+        if(&fantasmas[i] != currentGhost && fantasmas[i].active == 1) {
+            if(fantasmas[i].x == x && fantasmas[i].y == y) {
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
 void moveFantasma(Fantasma *f, int target_x, int target_y){
     screenSetColor(GREEN, DARKGRAY);
     screenGotoxy(f->x, f->y);
@@ -59,44 +79,55 @@ void moveFantasma(Fantasma *f, int target_x, int target_y){
         if(f->next_cell == NONE){
             int random_number;
             int flag = 0;
+            int attempts = 0;
             do {
                 random_number = rand() % 4;
+                int new_x = f->x;
+                int new_y = f->y;
+
                 switch(random_number) {
                     case 0:
-                        if(walls[f->x][f->y - 1] == OPEN) {
-                            f->next_cell = W;
-                            flag = 1;
-                        }
+                        new_y = f->y - 1;
                         break;
                     case 1:
-                        if(walls[f->x - 1][f->y] == OPEN) {
-                            f->next_cell = A;
-                            flag = 1;
-                        }
+                        new_x = f->x - 1;
                         break;
                     case 2:
-                        if(walls[f->x][f->y + 1] == OPEN) {
-                            f->next_cell = S;
-                            flag = 1;
-                        }
+                        new_y = f->y + 1;
                         break;
                     case 3:
-                        if(walls[f->x + 1][f->y] == OPEN) {
-                            f->next_cell = D;
-                            flag = 1;
-                        }
+                        new_x = f->x + 1;
                         break;
                 }
-            } while(flag == 0);
+
+                if(walls[new_x][new_y] == OPEN && !isPositionOccupiedByGhost(new_x, new_y, f)) {
+                    switch(random_number) {
+                        case 0:
+                            f->next_cell = W;
+                            break;
+                        case 1:
+                            f->next_cell = A;
+                            break;
+                        case 2:
+                            f->next_cell = S;
+                            break;
+                        case 3:
+                            f->next_cell = D;
+                            break;
+                    }
+                    flag = 1;
+                }
+                attempts++;
+            } while(flag == 0 && attempts < 20);
         }
     } else {
         int dx = target_x - f->x;
         int dy = target_y - f->y;
 
         int best_dir = NONE;
-        int best_score = -1000; // Very low initial score
+        int best_score = -1000;
 
-        if(walls[f->x][f->y - 1] == OPEN) {
+        if(walls[f->x][f->y - 1] == OPEN && !isPositionOccupiedByGhost(f->x, f->y - 1, f)) {
             int new_dx = target_x - f->x;
             int new_dy = target_y - (f->y - 1);
             int score = (abs(dx) - abs(new_dx)) + (abs(dy) - abs(new_dy));
@@ -106,7 +137,7 @@ void moveFantasma(Fantasma *f, int target_x, int target_y){
             }
         }
 
-        if(walls[f->x - 1][f->y] == OPEN) {
+        if(walls[f->x - 1][f->y] == OPEN && !isPositionOccupiedByGhost(f->x - 1, f->y, f)) {
             int new_dx = target_x - (f->x - 1);
             int new_dy = target_y - f->y;
             int score = (abs(dx) - abs(new_dx)) + (abs(dy) - abs(new_dy));
@@ -116,7 +147,7 @@ void moveFantasma(Fantasma *f, int target_x, int target_y){
             }
         }
 
-        if(walls[f->x][f->y + 1] == OPEN) {
+        if(walls[f->x][f->y + 1] == OPEN && !isPositionOccupiedByGhost(f->x, f->y + 1, f)) {
             int new_dx = target_x - f->x;
             int new_dy = target_y - (f->y + 1);
             int score = (abs(dx) - abs(new_dx)) + (abs(dy) - abs(new_dy));
@@ -126,7 +157,7 @@ void moveFantasma(Fantasma *f, int target_x, int target_y){
             }
         }
 
-        if(walls[f->x + 1][f->y] == OPEN) {
+        if(walls[f->x + 1][f->y] == OPEN && !isPositionOccupiedByGhost(f->x + 1, f->y, f)) {
             int new_dx = target_x - (f->x + 1);
             int new_dy = target_y - f->y;
             int score = (abs(dx) - abs(new_dx)) + (abs(dy) - abs(new_dy));
@@ -136,45 +167,14 @@ void moveFantasma(Fantasma *f, int target_x, int target_y){
             }
         }
 
-        if(best_dir == NONE) {
-            if(f->next_cell == NONE){
-                int random_number;
-                int flag = 0;
-                do {
-                    random_number = rand() % 4;
-                    switch(random_number) {
-                        case 0:
-                            if(walls[f->x][f->y - 1] == OPEN) {
-                                f->next_cell = W;
-                                flag = 1;
-                            }
-                            break;
-                        case 1:
-                            if(walls[f->x - 1][f->y] == OPEN) {
-                                f->next_cell = A;
-                                flag = 1;
-                            }
-                            break;
-                        case 2:
-                            if(walls[f->x][f->y + 1] == OPEN) {
-                                f->next_cell = S;
-                                flag = 1;
-                            }
-                            break;
-                        case 3:
-                            if(walls[f->x + 1][f->y] == OPEN) {
-                                f->next_cell = D;
-                                flag = 1;
-                            }
-                            break;
-                    }
-                } while(flag == 0);
-            }
-        } else {
+        if(best_dir != NONE) {
             f->next_cell = best_dir;
+        } else {
+            f->next_cell = NONE;
         }
     }
-    if(pacer % 3 != 0){
+
+    if(pacer % 3 != 0 && f->next_cell != NONE){
         switch(f->next_cell) {
             case W:
                 f->y--;

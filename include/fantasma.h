@@ -1,7 +1,7 @@
 #ifndef __FANTASMA_H__
 #define __FANTASMA_H__
 
-#define SIZE_FANTASMAS 3
+#define SIZE_FANTASMAS 2
 #define FANTASMA_SYMBOL "👻"
 
 typedef enum {RANDOM, PURSUE} AI;
