@@ -1,24 +1,17 @@
-/**
- * dot.c
- * Implementação para gerenciamento das pastilhas (Dots e Power Pellets).
- */
-
 #include <stdlib.h>
 #include <stdio.h>
 
 #include "screen.h"
 
 #include "dot.h"
-#include "walls.h"
 #include "score.h"
 
 
-// Definição das variáveis globais declaradas como 'extern' em dot.h
 Dot *all_dots = NULL;
 int total_dots = 0;
 
 
-static void addDot(int x, int y, DotType type) {
+static void addDot(int x, int y) {
     total_dots++;
     all_dots = (Dot *)realloc(all_dots, total_dots * sizeof(Dot));
 
@@ -29,7 +22,6 @@ static void addDot(int x, int y, DotType type) {
 
     all_dots[total_dots - 1].x = x;
     all_dots[total_dots - 1].y = y;
-    all_dots[total_dots - 1].type = type;
     all_dots[total_dots - 1].is_eaten = 0;
 }
 
@@ -43,16 +35,8 @@ void initDots() {
 
     for(int i = SCRSTARTX + 1; i < SCRENDX; i++){
         for(int j = SCRSTARTY + 1; j < SCRENDY; j++){
-            
-
-            if(walls[i][j] == 0){ 
-                addDot(i, j, REGULAR_DOT); 
-            }
+            addDot(i, j);
         }
-    }
-    
-    if (walls[SCRSTARTX + 2][SCRSTARTY + 2] == 0) {
-        addDot(SCRSTARTX + 2, SCRSTARTY + 2, POWER_PELLET);
     }
 }
 
@@ -68,12 +52,6 @@ void drawDots() {
     }
 }
 
-
-/**
- * Verifica se o Pac-Man colidiu com uma pastilha e a marca como comida.
- * @param pacmanX Coordenada X atual do Pac-Man.
- * @param pacmanY Coordenada Y atual do Pac-Man.
- */
 void checkDotCollision(int pacmanX, int pacmanY) {
     for (int i = 0; i < total_dots; i++) {
         if (all_dots[i].is_eaten == 0 && 
@@ -82,14 +60,7 @@ void checkDotCollision(int pacmanX, int pacmanY) {
 
             scorePoint();
             all_dots[i].is_eaten = 1; 
-            
-            // Aqui é onde a pontuação e a lógica especial (Tautologia) entrariam
-            if (all_dots[i].type == POWER_PELLET) {
-                // Lógica da Tautologia: Pac-Man fica invulnerável por um tempo.
-                // TODO: Implementar a ativação do modo POWER.
-            }
-            // TODO: Adicionar a pontuação aqui.
-            break; // O Pac-Man só pode comer uma pastilha por vez
+            break;
         }
     }
 }

@@ -18,17 +18,36 @@ void spaceOut(int x){
     line += x;
 }
 
+void printHighScores(int i){
+    if(high_scores[i].score == 0){
+        return;
+    }
+    newLine();
+    printf("%s: %d", high_scores[i].name, high_scores[i].score);
+    printHighScores(i+1);
+}
+
 void menu(){
     screenSetColor(YELLOW, DARKGRAY);
     screenInit(1);
     screenSetColor(WHITE, DARKGRAY);
     newLine();
-    printf("Uma estoria muitu linda:");
-
+    printf("Pacman, confuso com a frase 'só sei que nada sei', parou diante");
     newLine();
-    printf("c:");
+    printf("de um fantasma e refletiu.");
+    newLine();
+    printf("'Se eu duvido que existo, ainda preciso existir para ter");
+    newLine();
+    printf("a dúvida', pensou.");
+    newLine();
+    printf("Ele percebeu que algumas coisas são verdadeiras por si só,");
+    newLine();
+    printf("como 'o labirinto é azul ou não é azul'.");
+    newLine();
+    newLine();
+    printf("Ajuda Pacman a fazer tautologias e superar seu desânimo!");
 
-    spaceOut(10);
+    spaceOut(7);
 
     newLine();
     screenSetColor(GREEN, DARKGRAY);
@@ -55,10 +74,7 @@ void menu(){
     spaceOut(1);
     newLine();
     printf("HIGH SCORES:");
-    for(int i = 0; i < SIZE; i++){
-        newLine();
-        printf("%s: %d", high_scores[i].name, high_scores[i].score);
-    }
+    printHighScores(0);
 
     screenUpdate();
     line = 0;

@@ -8,7 +8,7 @@
 #include "walls.h"
 #include "player.h"
 
-static long int pacer = 0;
+static int pacer = 0;
 
 Fantasma fantasmas[SIZE_FANTASMAS] = {0};
 
@@ -174,9 +174,7 @@ void moveFantasma(Fantasma *f, int target_x, int target_y){
             f->next_cell = best_dir;
         }
     }
-
-    pacer++;
-    if(pacer % 3 == 0 || f->pace == FAST){
+    if(pacer % 3 != 0){
         switch(f->next_cell) {
             case W:
                 f->y--;
@@ -210,6 +208,7 @@ void moveFantasma(Fantasma *f, int target_x, int target_y){
 }
 
 void moveFantasmas(){
+    pacer++;
     for(int i = 0; i < SIZE_FANTASMAS; i++){
         if(fantasmas[i].active == 1){
             moveFantasma(&fantasmas[i], player.x, player.y);

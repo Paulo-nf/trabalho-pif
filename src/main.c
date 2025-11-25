@@ -15,15 +15,6 @@
 
 #define IS_WASD(c) (strchr("wasdWASD", (c)) != NULL)
 
-/*TODO:
- * AI perseguir velocidade
- * trocar por power up temporario?
- * limpar dot.c/h
- * ajeitar high scores depois dos testes
- * estoria
- * limpar codigo se der tempo :p
-*/
-
 static int ch = 0;
 static int fantasmaQueColide = -1;
 static int gameOver = 0;
@@ -154,15 +145,17 @@ int main() {
 
                     comerOuMorrer();
 
-                    checkDotCollision(player.x, player.y);
-                    checkSimboloColisoes(player.x, player.y);
-                    moveFantasmas();
+                    if(gameOver == 0){
+                        checkDotCollision(player.x, player.y);
+                        checkSimboloColisoes(player.x, player.y);
+                        moveFantasmas();
 
-                    comerOuMorrer();
-                    printScore();
-                    printWalls();
+                        comerOuMorrer();
+                        printScore();
+                        printWalls();
 
-                    screenUpdate();
+                        screenUpdate();
+                    }
                 }
             }
             ch = 0;
